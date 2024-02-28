@@ -1,115 +1,109 @@
-  // Shop locations
-  //let salesData = document.getElementById("sales-data")
-  let hours = []
-//object literals for shop locations:
-let seattle = {
-    name: "Seattle",
-    phone: "123-456-7890",
-    location: "2901 3rd Ave #300, Seattle, WA 9821",
-    hours: "6am, 7am, 8am, 9am, 10am, 11am, 12pm, 1pm, 2pm, 3pm, 4pm, 5pm, 6pm, 7pm",
-    minCustomers: 23,
-    maxCustomers: 65,
-    avgSale: 6.3,
-    averageCookiesPerHour: []
-}
-let tokyo = {
-    name: "Tokyo",
-    phone: "222-222-2222",
-    location: "1 Chrome-1-2 Pshiage, Sumida City, Tokyo 131-8634",
-    hours: "6am, 7am, 8am, 9am, 10am, 11am, 12pm, 1pm, 2pm, 3pm, 4pm, 5pm, 6pm, 7pm",
-    minCustomers: 3,
-    maxCustomers: 24,
-    avgSale: 1.2,
-    averageCookiesPerHour: []
-}
-let dubai = {
-    name: "Dubai",
-    phone: "333-333-3333",
-    location: "1 Sheikh Mohammed bin Rashid Blvd - Dubai",
-    hours: "6am, 7am, 8am, 9am, 10am, 11am, 12pm, 1pm, 2pm, 3pm, 4pm, 5pm, 6pm, 7pm",
-    minCustomers: 11,
-    maxCustomers: 38,
-    avgSale: 3.7,
-    averageCookiesPerHour: []
-}
-let paris = {
-    name: "Paris",
-    phone: "444-444-4444",
-    location: "Champ de Mars, 5 Avenue Anatole France, 75007 Paris",
-    hours: "6am, 7am, 8am, 9am, 10am, 11am, 12pm, 1pm, 2pm, 3pm, 4pm, 5pm, 6pm, 7pm",
-    minCustomers: 20,
-    maxCustomers: 38,
-    avgSale: 2.3,
-    averageCookiesPerHour: []
-}
-let lima = {
-    name: "Lima",
-    phone: "555-555-5555",
-    location: "Ca. Gral. Borgoño cuadra 8, Miraflores 15074",
-    hours: "6am, 7am, 8am, 9am, 10am, 11am, 12pm, 1pm, 2pm, 3pm, 4pm, 5pm, 6pm, 7pm",
-    minCustomers: 2,
-    maxCustomers: 16,
-    avgSale: 4.6,
-    averageCookiesPerHour: []
+ 
+let salesData = document.getElementById("sales-data")
+let hours = ["6am", "7am", "8am", "9am", "10am", "11am", "12pm", "1pm", "2pm", "3pm", "4pm", "5pm", "6pm", "7pm"]
+// Constructor function for salmon cookie stand
+function CookieStand(name, minCustomers, maxCustomers, avgSale) {
+    this.name = name;
+    this.minCustomers = minCustomers;
+    this.maxCustomers = maxCustomers;
+    this.avgSale = avgSale;
+    this.CookiesSoldEachHour = []
+    this.dailyStoreTotal = 0;
 }
 
+let seattleStore = new CookieStand("Seattle", 23, 65, 6.3)
+let tokyoStore = new CookieStand("Tokyo", 3, 24, 1.2)
+let dubaiStore = new CookieStand("dubai", 11, 38, 3.7)
+let parisStore = new CookieStand("Paris", 20, 38, 2.3)
+let limaStore = new CookieStand("Lima", 2, 16, 4.6)
 
 
-function simulateCookiesPurchased(location) {
-    console.log(location)
-    let hours = location.hours.split(', ');
-    let minCustomers = location.minCustomers;
-    let maxCustomers = location.maxCustomers;
-    let avgSale = location.avgSale;
-
+// Method to simulate cookies purchased
+CookieStand.prototype.simulateCookiesPurchased =function()
+{
+   
     for (let i = 0; i < hours.length; i++) {
-        let customer = getRandomNumberBetween(minCustomers, maxCustomers);
-        let cookiesSold = Math.round(customer * avgSale);
-        location.averageCookiesPerHour.push(cookiesSold);
+        let customer = getRandomNumberBetween(this.minCustomers, this.maxCustomers);
+        let cookiesSold = Math.round(customer * this.avgSale);
+        this.CookiesSoldEachHour.push(cookiesSold);
+        this.dailyStoreTotal += cookiesSold;
     };
-}
+} 
 
 function getRandomNumberBetween(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-
-simulateCookiesPurchased(seattle);
-simulateCookiesPurchased(tokyo);
-simulateCookiesPurchased(dubai);
-simulateCookiesPurchased(paris);
-simulateCookiesPurchased(lima);
-
-
-function displayCookiesPerHour(location) {
-    //let container = document.createElement('div');
-    const salesData = document.getElementById("root")
-    const locationData = document.createElement("section");
-    locationData.classList.add("location");
-    salesData.appendChild(locationData);
-    const title = document.createElement('h2');
-    title.textContent = `${location.name}`;
-    console.log(title)
-    salesData.appendChild(title);
-    console.log(salesData)
-    let list = document.createElement('ul');
-    salesData.appendChild(list)
-    location.averageCookiesPerHour.forEach((cookies, index) => {
-        console.log(cookies)
-        let listItem = document.createElement('li');
-        listItem.textContent = `${location.hours.split(', ')[index]}: ${cookies} cookies`;
-        list.appendChild(listItem);
-    });
+seattleStore.simulateCookiesPurchased()
+tokyoStore.simulateCookiesPurchased()
+dubaiStore.simulateCookiesPurchased()
+parisStore.simulateCookiesPurchased()
+limaStore.simulateCookiesPurchased()
 
 
+    
+
+CookieStand.prototype.render = function() {
+    // Create the header row
+    let headerRow = document.createElement("tr");
+    let headerCell = document.createElement("th");
+    headerCell.textContent = "City";
+    headerRow.appendChild(headerCell);
+    for (let i = 0; i < hours.length; i++) {
+        headerCell = document.createElement("th");
+        headerCell.textContent = hours[i];
+        headerRow.appendChild(headerCell);
+    }
+
+    headerCell = document.createElement("th");
+    headerCell.textContent = "Daily Total";
+    headerRow.appendChild(headerCell);
+
+    salesData.appendChild(headerRow);
+
+    // Create rows for each store
+    renderStoreRow(seattleStore, salesData);
+    renderStoreRow(tokyoStore, salesData);
+    renderStoreRow(dubaiStore, salesData);
+    renderStoreRow(parisStore, salesData);
+    renderStoreRow(limaStore, salesData);
+
+    // Append the table to the salesData element
 }
 
+function renderStoreRow(store, table) {
+    let row = document.createElement("tr");
+    let cell = document.createElement("td");
+    cell.textContent = store.name;
+    row.appendChild(cell);
+    console.log(store)
+    for (let i = 0; i < hours.length; i++) {
+        //console.log(hours)
+        cell = document.createElement("td");
+        cell.textContent = store.CookiesSoldEachHour[i];
+        row.appendChild(cell);
+    }
+
+    cell = document.createElement("td");
+    cell.textContent = store.dailyStoreTotal;
+    row.appendChild(cell);
+
+    table.appendChild(row);
+}
+
+// Call the render function to display the table
+seattleStore.render();
+tokyoStore.render();
+dubaiStore.render();
+parisStore.render();
+limaStore.render();
+
 // Display results for each location
-displayCookiesPerHour(seattle);
-displayCookiesPerHour(tokyo);
-displayCookiesPerHour(dubai);
-displayCookiesPerHour(paris);
-displayCookiesPerHour(lima);
+// displayCookiesPerHour(seattle);
+// displayCookiesPerHour(tokyo);
+// displayCookiesPerHour(dubai);
+// displayCookiesPerHour(paris);
+// displayCookiesPerHour(lima);
 
 
 // Call the function to display city information list
@@ -125,14 +119,17 @@ function displayCityInfo(location) {
     let hoursItem = document.createElement('li');
     let contactInfoItem = document.createElement('li');
     let locationItem = document.createElement('li');
+    let totalCookiesItem = document.createElement('li');
 
     hoursItem.textContent = `Hours open: ${location.hours}`;
     contactInfoItem.textContent = `Contact info: Phone - ${location.phone}`;
     locationItem.textContent = `Location: ${location.location}`;
+    totalCookiesItem.textContent = `Total cookies: ${location.totalCookies}`;
 
     list.appendChild(hoursItem);
     list.appendChild(contactInfoItem);
     list.appendChild(locationItem);
+    list.appendChild(totalCookiesItem)
 
     container.appendChild(list);
     document.body.appendChild(container);
