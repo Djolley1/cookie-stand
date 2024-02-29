@@ -7,27 +7,32 @@ function CookieLocation(city, hours, contact, location) {
 }
 
 // Create instances for each city
-var seattle = new CookieLocation('Seattle', '6am - 7pm', '2901 3rd Ave #300, Seattle,WA 98121', [123-456-7890]);
-var tokyo = new CookieLocation('Tokyo', '6am - 7pm', '1Chrome 1-2 Oshiage, Sumida City, Tokyo 131-8634', [222-222-2222]);
-var dubai = new CookieLocation('Dubai', '6am - 7pm', '1 Sheikh Mohammadbin Rashid Blvd-Dubai', [333-333-3333]);
-var paris = new CookieLocation('Paris', '6am - 7pm', 'Champ de Mars, 5 Avenue Anatole France, 75007 Paris', [444-444-4444]);
-var lima = new CookieLocation('Lima', '6am - 7pm', 'Ca. Gral Borgono cuandra 8, Miraflores 15074', [555-555-5555]);
+let seattle = new CookieLocation('Seattle', '6am - 7pm', '2901 3rd Ave #300, Seattle,WA 98121', '123-456-7890');
+let tokyo = new CookieLocation('Tokyo', '6am - 7pm', '1Chrome 1-2 Oshiage, Sumida City, Tokyo 131-8634', '222-222-2222');
+let dubai = new CookieLocation('Dubai', '6am - 7pm', '1 Sheikh Mohammadbin Rashid Blvd-Dubai', '333-333-3333');
+let paris = new CookieLocation('Paris', '6am - 7pm', 'Champ de Mars, 5 Avenue Anatole France, 75007 Paris', '444-444-4444');
+let lima = new CookieLocation('Lima', '6am - 7pm', 'Ca. Gral Borgono cuandra 8, Miraflores 15074', '555-555-5555');
+
+// Array of locations
+let locations = [seattle, tokyo, dubai, paris, lima];
+
+
 
 // Print locations on the page
 function printLocations(locations) {
-  var output = document.getElementById('output');
-  locations.forEach(function (location) {
-    var div = document.createElement('div');
+  let output = document.getElementById('output');
+  for(let i = 0; i < locations.length; i++) {
+    let location = locations[i]
+    console.log(i)
+    console.log(location)
+    let div = document.createElement('div');
     div.innerHTML = `<h3>${location.city}</h3>
                      <p>Hours: ${location.hours}</p>
-                     <p>Contact: ${location.contact}</p>
-                     <p>Location: ${location.location.join(', ')}</p>`;
+                     <p>Contact: ${location.location}</p>
+                     <p>Location: ${location.contact}</p>`;
     output.appendChild(div);
-  });
+  };
 }
-
-// Array of locations
-var locations = [seattle, tokyo, dubai, paris, lima];
 
 // Call the printLocations function with the array
 printLocations(locations);
