@@ -32,3 +32,17 @@ body {
     text-decoration: underline;
   }
 
+
+  table {
+    thead {
+      background: grey;
+    }
+    th, td {
+      border: 1px solid #444;
+      padding: .5em;
+    }
+  
+    tfoot {
+      background: grey;
+    }
+  }
