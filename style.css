@@ -7,10 +7,24 @@ body {
     padding: 0;
   }
 
-  h1, h2 {
+  h1, h2, h3 {
     font-family: 'Righteous', cursive; /* Custom Google Font for heading tags */
     color:  #fa8072; /* Font color for heading tags */
+    margin-left: 20px;
   }
+
+  p {
+    font-family: 'Arial', 'Verdana', sans-serif;
+    margin-left: 20px;
+    padding: flex
+    
+    }
+
+    img {
+      display: block;
+      margin: auto;
+      
+    }
 
   header {
     background-color: #000; /* Header background: Black */
@@ -30,6 +44,11 @@ body {
 
   nav a:hover {
     text-decoration: underline;
+  }
+
+  footer {
+    background-color: #666;
+    padding: 10px;
   }
 
 
