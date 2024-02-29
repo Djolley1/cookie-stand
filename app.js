@@ -67,14 +67,6 @@ function render() {
 
     salesData.appendChild(headerRow);
 
-    // Create rows for each store
-    // renderStoreRow(seattleStore, salesData);
-    // renderStoreRow(tokyoStore, salesData);
-    // renderStoreRow(dubaiStore, salesData);
-    // renderStoreRow(parisStore, salesData);
-    // renderStoreRow(limaStore, salesData);
-
-    // Append the table to the salesData element
 }
 
 CookieStand.prototype.renderStoreRow = function() {
@@ -109,13 +101,20 @@ limaStore.renderStoreRow();
 
 
 function createTableFooter() {
+    let existingFooter = document.getElementById("footerRow");
+    if (existingFooter) {
+        existingFooter.remove();
+    }
     let footer = document.getElementById("sales-data");
     let row = document.createElement("tr");
+    row.id = "footerRow"; 
     footer.appendChild(row);
 
     let totalLabel = document.createElement("td");
     totalLabel.textContent = "Hours Total";
     row.appendChild(totalLabel);
+
+    let newTotalSales = 0
 
     for(let i=0; i<totalsPerHour.length; i++) {
         console.log(totalsPerHour)
@@ -123,10 +122,13 @@ function createTableFooter() {
         td.textContent = totalsPerHour[i];
         row.appendChild(td);
         totalSales += totalsPerHour[i]
+        newTotalSales += totalsPerHour[i];
     }
     let mainTotal = document.createElement("td");
-    mainTotal.textContent = `${totalSales}`;
+    mainTotal.textContent = `${newTotalSales}`;
     row.appendChild(mainTotal);
+
+    totalSales = newTotalSales;
     
 }
 
@@ -137,42 +139,46 @@ function start() {
 createTableFooter()
 
 
+function addNewStore() {
+    // Get form values
+    const newName = document.getElementById('newStoreName').value;
+    const newMinCustomers = parseInt(document.getElementById('newMinCustomers').value);
+    const newMaxCustomers = parseInt(document.getElementById('newMaxCustomers').value);
+    const newAvgCookies = parseFloat(document.getElementById('newAvgCookies').value);
 
+    // Create a new instance of a cookie stand
+    const newStore = new CookieStand(newName, newMinCustomers, newMaxCustomers, newAvgCookies);
 
+    // Simulate cookies purchased for the new store
+    newStore.simulateCookiesPurchased();
 
-// Display results for each location
-// displayCookiesPerHour(seattle);
-// displayCookiesPerHour(tokyo);
-// displayCookiesPerHour(dubai);
-// displayCookiesPerHour(paris);
-// displayCookiesPerHour(lima);
+    // Append the new store to the table
+    newStore.renderStoreRow();
 
+    // Update the table footer
+    updateTableFooter();
+    createTableFooter();
+  }
 
-// Call the function to display city information list
-// displayCityInfoList();
+  function updateTableFooter() {
+    // Your existing code for updating the table footer
+    // ...
 
-// function displayCityInfo(location) {
-//     let container = document.createElement('div');
-//     let title = document.createElement('h2');
-//     title.textContent = `${location.name}`;
-//     container.appendChild(title);
+    // Clear existing totals
+    totalSales = 0;
+    for (let i = 0; i < totalsPerHour.length; i++) {
+        totalsPerHour[i] = 0;
+    }
 
-//     let list = document.createElement('ul');
-//     let hoursItem = document.createElement('li');
-//     let contactInfoItem = document.createElement('li');
-//     let locationItem = document.createElement('li');
-//     let totalCookiesItem = document.createElement('li');
+    // Recalculate totals
+    for (let store of allCookieStands) {
+        for (let i = 0; i < hours.length; i++) {
+            totalsPerHour[i] += store.CookiesSoldEachHour[i];
+        }
+        totalSales += store.dailyStoreTotal;
+    }
 
-//     hoursItem.textContent = `Hours open: ${location.hours}`;
-//     contactInfoItem.textContent = `Contact info: Phone - ${location.phone}`;
-//     locationItem.textContent = `Location: ${location.location}`;
-//     totalCookiesItem.textContent = `Total cookies: ${location.totalCookies}`;
+    // Update the table footer with the new totals
+    // ...
+  }
 
-//     list.appendChild(hoursItem);
-//     list.appendChild(contactInfoItem);
-//     list.appendChild(locationItem);
-//     list.appendChild(totalCookiesItem)
-
-//     container.appendChild(list);
-//     document.body.appendChild(container);
-// }

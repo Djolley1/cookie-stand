@@ -15,7 +15,32 @@
     <a href="./index.html">Home</a>
     <a href="./sale.html">Sales Data</a>
   </nav>
-  <table id="sales-data"></table>
+
+
+  <form id="addNewStoreForm">
+    <fieldset>
+      <legend>Add New Cookie Stand</legend>
+      <label for="newStoreName">Store Name:</label>
+      <input type="text" id="newStoreName" name="newStoreName" required>
+      
+      <label for="newMinCustomers">Min Customers:</label>
+      <input type="number" id="newMinCustomers" name="newMinCustomers" required>
+      
+      <label for="newMaxCustomers">Max Customers:</label>
+      <input type="number" id="newMaxCustomers" name="newMaxCustomers" required>
+      
+      <label for="newAvgCookies">Avg Cookies:</label>
+      <input type="number" id="newAvgCookies" name="newAvgCookies" step="0.1" required>
+      <button type="button" onclick="addNewStore()">Add Cookie Stand</button>
+    </fieldset>
+  </form>
+
+  <table id="sales-data">
+    <thead id="tableHeader"></thead>
+    <tbody id="tableBody"></tbody>
+    <tfoot id="tableFooter"></tfoot>
+  </table>
+
   <div id="root" class="content"></div>
   <script src="./app.js"></script>
 </body>
