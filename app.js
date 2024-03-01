@@ -161,8 +161,7 @@ function addNewStore() {
   }
 
   function updateTableFooter() {
-    // Your existing code for updating the table footer
-    // ...
+    
 
     // Clear existing totals
     totalSales = 0;
