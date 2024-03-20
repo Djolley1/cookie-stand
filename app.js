@@ -1,4 +1,4 @@
- 
+
 let salesData = document.getElementById("sales-data")
 let hours = ["6am", "7am", "8am", "9am", "10am", "11am", "12pm", "1pm", "2pm", "3pm", "4pm", "5pm", "6pm", "7pm"]
 let totalsPerHour = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -12,42 +12,38 @@ function CookieStand(name, minCustomers, maxCustomers, avgSale) {
     this.avgSale = avgSale;
     this.CookiesSoldEachHour = [];
     this.dailyStoreTotal = 0;
+
+    allCookieStands.push(this);
 }
 
-let seattleStore = new CookieStand("Seattle", 23, 65, 6.3)
-let tokyoStore = new CookieStand("Tokyo", 3, 24, 1.2)
-let dubaiStore = new CookieStand("dubai", 11, 38, 3.7)
-let parisStore = new CookieStand("Paris", 20, 38, 2.3)
-let limaStore = new CookieStand("Lima", 2, 16, 4.6)
-allCookieStands.push(seattleStore, tokyoStore, dubaiStore, parisStore, limaStore);
+new CookieStand("Seattle", 23, 65, 6.3)
+new CookieStand("Tokyo", 3, 24, 1.2)
+new CookieStand("dubai", 11, 38, 3.7)
+new CookieStand("Paris", 20, 38, 2.3)
+new CookieStand("Lima", 2, 16, 4.6)
 console.log(allCookieStands)
 
 
 // Method to simulate cookies purchased
-CookieStand.prototype.simulateCookiesPurchased =function()
-{
-   
+CookieStand.prototype.simulateCookiesPurchased = function () {
+
     for (let i = 0; i < hours.length; i++) {
         let customer = getRandomNumberBetween(this.minCustomers, this.maxCustomers);
         let cookiesSold = Math.round(customer * this.avgSale);
         this.CookiesSoldEachHour.push(cookiesSold);
         this.dailyStoreTotal += cookiesSold;
         totalSales += cookiesSold;
+        console.log(totalSales);
     };
-} 
+}
 
 function getRandomNumberBetween(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-seattleStore.simulateCookiesPurchased()
-tokyoStore.simulateCookiesPurchased()
-dubaiStore.simulateCookiesPurchased()
-parisStore.simulateCookiesPurchased()
-limaStore.simulateCookiesPurchased()
-
-
-    
+for (let i = 0; i < allCookieStands.length; i++) {
+    allCookieStands[i].simulateCookiesPurchased();
+}
 
 function render() {
     // Create the header row
@@ -69,19 +65,17 @@ function render() {
 
 }
 
-CookieStand.prototype.renderStoreRow = function() {
+CookieStand.prototype.renderStoreRow = function () {
     let row = document.createElement("tr");
     let cell = document.createElement("td");
     cell.textContent = this.name;
     row.appendChild(cell);
+
     for (let i = 0; i < hours.length; i++) {
-        //console.log(hours)
         cell = document.createElement("td");
         cell.textContent = this.CookiesSoldEachHour[i];
         row.appendChild(cell);
         totalsPerHour[i] += this.CookiesSoldEachHour[i]
-        console.log(totalsPerHour[i])
-        console.log(this.CookiesSoldEachHour[i])
     }
 
     cell = document.createElement("td");
@@ -93,11 +87,9 @@ CookieStand.prototype.renderStoreRow = function() {
 
 // Call the render function to display the table
 render()
-seattleStore.renderStoreRow();
-tokyoStore.renderStoreRow();
-dubaiStore.renderStoreRow();
-parisStore.renderStoreRow();
-limaStore.renderStoreRow();
+for (let i = 0; i < allCookieStands.length; i++) {
+    allCookieStands[i].renderStoreRow();
+}
 
 
 function createTableFooter() {
@@ -107,7 +99,7 @@ function createTableFooter() {
     }
     let footer = document.getElementById("sales-data");
     let row = document.createElement("tr");
-    row.id = "footerRow"; 
+    row.id = "footerRow";
     footer.appendChild(row);
 
     let totalLabel = document.createElement("td");
@@ -116,7 +108,7 @@ function createTableFooter() {
 
     let newTotalSales = 0
 
-    for(let i=0; i<totalsPerHour.length; i++) {
+    for (let i = 0; i < totalsPerHour.length; i++) {
         console.log(totalsPerHour)
         let td = document.createElement("td");
         td.textContent = totalsPerHour[i];
@@ -129,11 +121,7 @@ function createTableFooter() {
     row.appendChild(mainTotal);
 
     totalSales = newTotalSales;
-    
-}
 
-function start() {
-    console.log("Starting Footer");
 }
 
 createTableFooter()
@@ -158,10 +146,10 @@ function addNewStore() {
     // Update the table footer
     updateTableFooter();
     createTableFooter();
-  }
+}
 
-  function updateTableFooter() {
-    
+function updateTableFooter() {
+
 
     // Clear existing totals
     totalSales = 0;
@@ -179,5 +167,5 @@ function addNewStore() {
 
     // Update the table footer with the new totals
     // ...
-  }
+}
 
